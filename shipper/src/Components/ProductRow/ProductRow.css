@@ -22,38 +22,33 @@
 }
 
 /* Fix for each product card */
-.product-card {
+.product-row-card {
     flex: 0 0 180px;
-    /* Fixed width to prevent stretching */
     min-width: 180px;
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     padding: 10px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
-    /* Makes items stack vertically */
     align-items: center;
 }
 
-.product-image {
+.product-row-image {
     width: 100%;
     height: 150px;
-    /* Ensures uniform height */
     object-fit: cover;
     border-radius: 8px;
 }
 
-.product-name {
+.product-row-name {
     font-size: 16px;
     font-weight: bold;
     margin-top: 8px;
-    /* Adds spacing between image and name */
 }
 
-.product-price {
+.product-row-price {
     font-size: 18px;
     font-weight: bold;
     color: #b12704;

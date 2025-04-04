@@ -3,14 +3,14 @@ import "./ProductRow.css";
 
 function ProductCard({ product }) {
     if (!product) {
-        return <div className="product-card">Invalid Product</div>;
+        return <div className="product-row-card">Invalid Product</div>;
     }
 
     return (
-        <div className="product-card">
-            <img src={product.image} alt={product.name} className="product-image" />
-            <h3 className="product-name">{product.name}</h3>
-            <p className="product-price">₹{product.price}</p>
+        <div className="product-row-card">
+            <img src={product.image} alt={product.name} className="product-row-image" />
+            <h3 className="product-row-name">{product.name}</h3>
+            <p className="product-row-price">₹{product.price}</p>
         </div>
     );
 }
