@@ -10,7 +10,8 @@ function Navbar() {
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         if (searchQuery.trim()) {
-            navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+            const formattedQuery = searchQuery.toLowerCase().replace(/\s+/g, ' ').trim();
+            navigate(`/search?q=${encodeURIComponent(formattedQuery)}`);
         }
     };
 

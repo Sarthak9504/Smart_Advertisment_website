@@ -1,39 +1,7 @@
-.search-product-list {
+.search-results {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-}
-
-.search-product-card {
-    display: flex;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
+    gap: 16px;
     align-items: center;
-    gap: 15px;
-    background: white;
-}
-
-.product-image {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-}
-
-.product-details {
-    flex: 1;
-}
-
-.price {
-    color: #b12704;
-    font-weight: bold;
-}
-
-.add-to-cart {
-    background: #ff9900;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
+    margin: 2%;
 }
