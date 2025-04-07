@@ -3,12 +3,39 @@ import { FaTrashAlt } from "react-icons/fa";
 import "./ProductCard.css";
 
 function ProductCard({ product }) {
-    console.log("ProductCard rendered with product:", product);
+    // console.log("ProductCard rendered with product:", product);
     const [addedToCart, setAddedToCart] = useState(false);
     const [quantity, setQuantity] = useState(1);
 
-    const handleAddToCart = () => {
+    const handleAddToCart = (product) => {
         console.log("Button clicked! Updating state...");
+        const existingCart = document.cookie
+            .split('; ')
+            .find((row) => row.startsWith('cartItems='))
+            ?.split('=')[1];
+
+        let cart = [];
+
+        if (existingCart) {
+            try {
+                cart = JSON.parse(decodeURIComponent(existingCart));
+            } catch (error) {
+                console.error("Failed to parse cart cookie", error);
+            }
+        }
+
+        // Check if product already exists in cart
+        const existingItem = cart.find(item => item.id === product.id);
+        if (existingItem) {
+            existingItem.quantity += 1; // or skip updating if desired
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
+
+        // Save updated cart to cookies
+        document.cookie = `cartItems=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
+
+        console.log("Cart cookie set:", cart);
         setAddedToCart(true);
     };
 
@@ -44,7 +71,7 @@ function ProductCard({ product }) {
                         </div>
                     </div>
                 ) : (
-                    <button className="add-to-cart" onClick={handleAddToCart}>Add to Cart</button>
+                    <button className="add-to-cart" onClick={() => handleAddToCart(product)}>Add to Cart</button>
                 )}
             </div>
         </div>

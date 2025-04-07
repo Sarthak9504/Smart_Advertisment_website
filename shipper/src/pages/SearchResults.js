@@ -4,8 +4,8 @@ import SearchAdBanner from "../Components/SearchAdBanner/SearchAdBanner";
 import SearchProductList from "../Components/SearchResults/SearchProductList";
 
 const sampleProducts = [
-    { name: "Xiaomi 15", price: 64999, image: "https://tse4.mm.bing.net/th?id=OIP._FX2SEZqihA7u9-3u5yfiwHaEK&pid=Api&P=0&h=180" },
-    { name: "OnePlus Nord 4", price: 28998, image: "https://tse4.mm.bing.net/th?id=OIP._FX2SEZqihA7u9-3u5yfiwHaEK&pid=Api&P=0&h=180" },
+    { id: 1, name: "Xiaomi 15", price: 64999, image: "https://tse4.mm.bing.net/th?id=OIP._FX2SEZqihA7u9-3u5yfiwHaEK&pid=Api&P=0&h=180" },
+    { id: 2, name: "OnePlus Nord 4", price: 28998, image: "https://tse4.mm.bing.net/th?id=OIP._FX2SEZqihA7u9-3u5yfiwHaEK&pid=Api&P=0&h=180" },
 ];
 
 const searchAds = {
