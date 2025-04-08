@@ -22,6 +22,7 @@ function SearchResults() {
 
     useEffect(() => {
         // Parse document.cookie to get searchHistory
+        console.log("First time API call");
         const cookies = document.cookie.split("; ");
         const searchCookie = cookies.find((row) => row.startsWith("searchHistory="));
 
@@ -33,22 +34,22 @@ function SearchResults() {
 
                 if (recentQuery) {
                     // Make API call to fetch ad image
-                    axios
-                        .get(`http://172.19.1.181:8080/ads/${encodeURIComponent(recentQuery)}`)
-                        .then((response) => {
-                            // Expecting something like { image: "http://..." }
-                            console.log("response", response);
-                            setAdImage(response.data.image);
+                    axios.get(`http://172.19.1.181:8080/ads/${encodeURIComponent(recentQuery)}`, {
+                        responseType: 'blob'
+                    })
+                        .then(response => {
+                            const url = URL.createObjectURL(response.data);
+                            setAdImage(url);
                         })
-                        .catch((err) => {
-                            console.error("Error fetching ad image:", err);
+                        .catch(error => {
+                            console.error('Error fetching ad image:', error);
                         });
                 }
             } catch (err) {
                 console.error("Failed to parse searchHistory cookie:", err);
             }
         }
-    }, []);
+    }, [query]);
 
     return (
         <div>
