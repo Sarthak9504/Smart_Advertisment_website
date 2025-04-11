@@ -1,6 +1,6 @@
 import React from "react";
 import AdBanner from "../Components/AdBanner/AdBanner";
-import ProductRow from "../Components/ProductRow/ProdcutRow";
+import ProductSection from "../Components/ProductSection/ProductSection";
 
 const adImages = [
     "https://tse3.mm.bing.net/th?id=OIP.0KwcZ4t3Czwk6BIeoaSgWAHaLf&pid=Api&P=0&h=180",
@@ -26,7 +26,7 @@ function Home() {
         <div>
             <AdBanner ads={adImages} />
             {Object.keys(productsData).map((category) => (
-                <ProductRow key={category} title={category} products={productsData[category]} />
+                <ProductSection key={category} title={category} products={productsData[category]} />
             ))}
         </div>
     );

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import "./ProductCard.css";
 
 function ProductCard({ product }) {
     // console.log("ProductCard rendered with product:", product);
     const [addedToCart, setAddedToCart] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const navigate = useNavigate();
 
     const handleAddToCart = (product) => {
         console.log("Button clicked! Updating state...");
@@ -52,8 +54,12 @@ function ProductCard({ product }) {
         }
     };
 
+    const handleClick = () => {
+        navigate(`/product/${encodeURIComponent(product.name)}`);
+    };
+
     return (
-        <div className="product-card">
+        <div className="product-card" onClick={handleClick}>
             <div className="product-image">
                 <img src={product.image} alt={product.name} />
             </div>

@@ -10,7 +10,15 @@
     border: 1px solid #ddd;
     margin: 10px 0;
     justify-content: flex-start;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
+
+
+.product-card:hover {
+    transform: scale(1.02);
+}
+
 
 .product-image {
     width: 150px;
