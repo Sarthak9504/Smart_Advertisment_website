@@ -66,7 +66,7 @@ function Navbar() {
             </form>
 
             <div className="nav-icons">
-                <a href="/account" className="account">
+                <a href="/accounts" className="account">
                     <FaUser />
                     <span>Account</span>
                 </a>
