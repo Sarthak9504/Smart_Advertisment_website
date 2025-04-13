@@ -4,44 +4,29 @@ import { useLocation } from "react-router-dom";
 import SearchAdBanner from "../Components/SearchAdBanner/SearchAdBanner";
 import SearchProductList from "../Components/SearchResults/SearchProductList";
 
-const sampleProducts = [
-  {
-    id: 1,
-    name: "Xiaomi 15",
-    price: 64999,
-    image:
-      "https://tse4.mm.bing.net/th?id=OIP._FX2SEZqihA7u9-3u5yfiwHaEK&pid=Api&P=0&h=180",
-  },
-  {
-    id: 2,
-    name: "OnePlus Nord 4",
-    price: 28998,
-    image:
-      "https://tse4.mm.bing.net/th?id=OIP._FX2SEZqihA7u9-3u5yfiwHaEK&pid=Api&P=0&h=180",
-  },
-];
-
-const searchAds = {
-  "smart phone": {
-    adImage:
-      "https://tse4.mm.bing.net/th?id=OIP._FX2SEZqihA7u9-3u5yfiwHaEK&pid=Api&P=0&h=180",
-    adLink: "/smartphones",
-  },
-  laptop: {
-    adImage:
-      "https://tse1.mm.bing.net/th?id=OIP.50IxpewLcmpKxgJGN1clGwHaEc&pid=Api&P=0&h=180",
-    adLink: "/laptops",
-  },
-};
 
 function SearchResults() {
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("q") || "all";
-  const adData = searchAds[query] || {
-    adImage: "/images/default-ad.jpg",
-    adLink: "/",
-  };
   const [adImage, setAdImage] = useState(null);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/products/search/${encodeURIComponent(query)}`);
+        const data = await res.json();
+        setProducts(data.products);
+        // console.log(data);
+      } catch (err) {
+        console.error("Failed to fetch search results:", err);
+      }
+    };
+
+    fetchProducts();
+  }, [query]);
+
+
   useEffect(() => {
     // Parse document.cookie to get searchHistory
     console.log("First time API call");
@@ -82,8 +67,8 @@ function SearchResults() {
   return (
     <div>
       <h2>Search Results for "{query}"</h2>
-      <SearchAdBanner adImage={adImage} adLink={adData.adLink} />
-      <SearchProductList products={sampleProducts} />
+      <SearchAdBanner adImage={adImage} adLink="/" />
+      <SearchProductList products={products} />
     </div>
   );
 }

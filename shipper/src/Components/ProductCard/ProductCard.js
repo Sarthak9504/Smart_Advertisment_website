@@ -70,14 +70,23 @@ function ProductCard({ product }) {
                 {addedToCart ? (
                     <div className="cart-options">
                         <div className="cart-options">
-                            <button className="quantity-btn" onClick={decreaseQuantity}>
+                            <button className="quantity-btn" onClick={(e) => {
+                                e.stopPropagation();
+                                decreaseQuantity();
+                            }}>
                                 <FaTrashAlt /></button>
                             <span className="quantity">{quantity}</span>
-                            <button className="quantity-btn" onClick={increaseQuantity}>➕</button>
+                            <button className="quantity-btn" onClick={(e) => {
+                                e.stopPropagation();
+                                increaseQuantity();
+                            }}>➕</button>
                         </div>
                     </div>
                 ) : (
-                    <button className="add-to-cart" onClick={() => handleAddToCart(product)}>Add to Cart</button>
+                    <button className="add-to-cart" onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddToCart(product);
+                    }}>Add to Cart</button>
                 )}
             </div>
         </div>

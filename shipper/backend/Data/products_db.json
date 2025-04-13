@@ -1,0 +1,137 @@
+[
+    {
+        "id": 1,
+        "category": "laptop",
+        "name": "MacBook Air M2",
+        "brand": "Apple",
+        "price": 119900,
+        "description": "Powerful and lightweight laptop with M2 chip.",
+        "image": "/images/macbook_air_m2.jpg"
+    },
+    {
+        "id": 2,
+        "category": "laptop",
+        "name": "Dell XPS 13",
+        "brand": "Dell",
+        "price": 104999,
+        "description": "Sleek ultrabook with 13-inch display and Intel i7.",
+        "image": "/images/dell_xps_13.jpg"
+    },
+    {
+        "id": 3,
+        "category": "laptop",
+        "name": "HP Spectre x360",
+        "brand": "HP",
+        "price": 99999,
+        "description": "2-in-1 convertible laptop with stunning display.",
+        "image": "/images/hp_spectre_x360.jpg"
+    },
+    {
+        "id": 4,
+        "category": "laptop",
+        "name": "Lenovo Yoga Slim 7",
+        "brand": "Lenovo",
+        "price": 84990,
+        "description": "Lightweight laptop with AMD Ryzen 7.",
+        "image": "/images/lenovo_yoga_slim7.jpg"
+    },
+    {
+        "id": 5,
+        "category": "laptop",
+        "name": "Asus ROG Zephyrus G14",
+        "brand": "Asus",
+        "price": 129999,
+        "description": "Powerful gaming laptop with RTX 4060 GPU.",
+        "image": "/images/asus_rog_zephyrus.jpg"
+    },
+    {
+        "id": 6,
+        "category": "phone",
+        "name": "iPhone 15",
+        "brand": "Apple",
+        "price": 79999,
+        "description": "Flagship iPhone with A17 Bionic chip.",
+        "image": "/images/iphone_15.jpg"
+    },
+    {
+        "id": 7,
+        "category": "phone",
+        "name": "Samsung Galaxy S24",
+        "brand": "Samsung",
+        "price": 74999,
+        "description": "High-end Android phone with stunning AMOLED display.",
+        "image": "/images/galaxy_s24.jpg"
+    },
+    {
+        "id": 8,
+        "category": "phone",
+        "name": "OnePlus 12",
+        "brand": "OnePlus",
+        "price": 64999,
+        "description": "Smooth OxygenOS with Snapdragon 8 Gen 2.",
+        "image": "/images/oneplus_12.jpg"
+    },
+    {
+        "id": 9,
+        "category": "phone",
+        "name": "Google Pixel 8",
+        "brand": "Google",
+        "price": 70999,
+        "description": "Pixel experience with great camera performance.",
+        "image": "/images/pixel_8.jpg"
+    },
+    {
+        "id": 10,
+        "category": "phone",
+        "name": "Realme GT 5 Pro",
+        "brand": "Realme",
+        "price": 47999,
+        "description": "Value flagship with 2K display and fast charging.",
+        "image": "/images/realme_gt5_pro.jpg"
+    },
+    {
+        "id": 11,
+        "category": "watch",
+        "name": "Apple Watch Series 9",
+        "brand": "Apple",
+        "price": 41900,
+        "description": "Advanced health tracking with always-on display.",
+        "image": "/images/apple_watch_9.jpg"
+    },
+    {
+        "id": 12,
+        "category": "watch",
+        "name": "Samsung Galaxy Watch 6",
+        "brand": "Samsung",
+        "price": 33999,
+        "description": "Smartwatch with WearOS and health features.",
+        "image": "/images/galaxy_watch_6.jpg"
+    },
+    {
+        "id": 13,
+        "category": "watch",
+        "name": "Noise ColorFit Ultra 3",
+        "brand": "Noise",
+        "price": 3499,
+        "description": "Affordable smartwatch with AMOLED display.",
+        "image": "/images/noise_colorfit_ultra3.jpg"
+    },
+    {
+        "id": 14,
+        "category": "watch",
+        "name": "boAt Xtend Smartwatch",
+        "brand": "boAt",
+        "price": 2499,
+        "description": "Budget watch with Alexa and fitness tracking.",
+        "image": "/images/boat_xtend.jpg"
+    },
+    {
+        "id": 15,
+        "category": "watch",
+        "name": "Fossil Gen 6",
+        "brand": "Fossil",
+        "price": 23999,
+        "description": "Stylish smartwatch with Snapdragon Wear 4100+.",
+        "image": "/images/fossil_gen6.jpg"
+    }
+]
