@@ -17,7 +17,6 @@ function Home() {
                 const res = await fetch("http://localhost:5000/api/products");
                 const data = await res.json();
                 setProductsData(data);
-                console.log(data['laptop']);
             } catch (err) {
                 console.error("Failed to fetch products", err);
             }

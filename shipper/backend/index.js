@@ -7,6 +7,7 @@ dotenv.config();
 
 const authRoutes = require("./routers/auth_routes");
 const productRoutes = require("./routers/product_routes");
+const userRoutes = require("./routers/user_routes");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(cookieParser());
 // ROUTES
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/user", userRoutes);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

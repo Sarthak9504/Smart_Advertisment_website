@@ -5,9 +5,17 @@ import "./AuthForm.css";
 const AuthForm = ({ onAuth, step }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
+        if (!email || !password) {
+            alert("Please enter both email and password");
+            return;
+        }
+
+        setLoading(true); // Start loading
+
         const endpoint = step === "signin" ? "/api/auth/login" : "/api/auth/signup";
 
         try {
@@ -21,6 +29,7 @@ const AuthForm = ({ onAuth, step }) => {
             });
 
             const data = await res.json();
+            setLoading(false); // Stop loading
 
             if (!res.ok) {
                 alert(data.message || "Something went wrong");
@@ -28,12 +37,15 @@ const AuthForm = ({ onAuth, step }) => {
             }
 
             onAuth({ email: data.email });
+
+            navigate("/accounts/profile");
+            window.location.reload(); // <-- Force reload to update protected route components
         } catch (err) {
+            setLoading(false); // Stop loading on error
             alert("Network error");
             console.error(err);
         }
     };
-
 
     if (step === "choice") {
         return (
@@ -60,8 +72,14 @@ const AuthForm = ({ onAuth, step }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button onClick={handleSubmit}>
-                {step === "signin" ? "Login" : "Sign Up"}
+            <button onClick={handleSubmit} disabled={loading}>
+                {loading
+                    ? step === "signin"
+                        ? "Signing in..."
+                        : "Creating account..."
+                    : step === "signin"
+                        ? "Login"
+                        : "Sign Up"}
             </button>
         </div>
     );

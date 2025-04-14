@@ -1,40 +1,37 @@
-const fs = require("fs");
-const path = require("path");
 const stringSimilarity = require("string-similarity");
+const { db } = require("../config/firebase");
 
-const productsFile = path.join(__dirname, "../data/products_db.json");
+// Get all products, grouped by category
+const getAllProducts = async (req, res) => {
+    try {
+        const snapshot = await db.collection("products").get();
+        const flatProducts = snapshot.docs.map(doc => doc.data());
 
-const getAllProducts = (req, res) => {
-    fs.readFile(productsFile, "utf8", (err, data) => {
-        if (err) return res.status(500).json({ error: "Failed to load products" });
-
-        const flatProducts = JSON.parse(data); // [{ name, price, category, ... }]
         const grouped = {};
-
-        flatProducts.forEach((product) => {
+        flatProducts.forEach(product => {
             const cat = product.category || "Others";
             if (!grouped[cat]) grouped[cat] = [];
             grouped[cat].push(product);
         });
 
         res.json(grouped);
-    });
+    } catch (err) {
+        console.error("Firestore error:", err);
+        res.status(500).json({ error: "Failed to fetch products" });
+    }
 };
 
-
-const getProductsByCategory = (req, res) => {
+// Get products by fuzzy category
+const getProductsByCategory = async (req, res) => {
     const rawQuery = req.params.category.trim().toLowerCase();
 
-    fs.readFile(productsFile, "utf8", (err, data) => {
-        if (err) return res.status(500).json({ error: "Failed to load products" });
+    try {
+        const snapshot = await db.collection("products").get();
+        const allProducts = snapshot.docs.map(doc => doc.data());
 
-        const allProducts = JSON.parse(data);
-
-        // Extract unique categories from product list
         const uniqueCategories = [...new Set(allProducts.map(p => p.category.trim().toLowerCase()))];
-
-        // Find best fuzzy match for the input
         const { bestMatch } = stringSimilarity.findBestMatch(rawQuery, uniqueCategories);
+
         const bestCategory = bestMatch.target;
         const rating = bestMatch.rating;
 
@@ -42,16 +39,42 @@ const getProductsByCategory = (req, res) => {
             return res.status(404).json({ error: "No close category match found" });
         }
 
-        // Filter products that match the best fuzzy category
         const matchedProducts = allProducts.filter(
             p => p.category.trim().toLowerCase() === bestCategory
         );
 
         res.json({ products: matchedProducts, matchedCategory: bestCategory });
-    });
+    } catch (err) {
+        console.error("Firestore error:", err);
+        res.status(500).json({ error: "Failed to fetch products by category" });
+    }
+};
+
+// Get a single product by exact name
+const getProductByName = async (req, res) => {
+    const name = decodeURIComponent(req.params.name).trim().toLowerCase();
+
+    try {
+        const snapshot = await db.collection("products").get();
+        const products = snapshot.docs.map(doc => doc.data());
+
+        const product = products.find(
+            (p) => p.name.trim().toLowerCase() === name
+        );
+
+        if (!product) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+
+        res.json(product);
+    } catch (err) {
+        console.error("Firestore error:", err);
+        res.status(500).json({ error: "Failed to fetch product" });
+    }
 };
 
 module.exports = {
     getAllProducts,
-    getProductsByCategory
+    getProductsByCategory,
+    getProductByName,
 };

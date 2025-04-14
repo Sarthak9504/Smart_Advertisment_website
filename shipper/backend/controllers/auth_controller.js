@@ -1,66 +1,92 @@
-const fs = require("fs");
-const path = require("path");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-
-const usersPath = path.join(__dirname, "../data/users.json");
-
-const readUsers = () => {
-    if (!fs.existsSync(usersPath)) return [];
-    const data = fs.readFileSync(usersPath);
-    return JSON.parse(data);
-};
-
-const writeUsers = (users) => {
-    fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
-};
+const { rtdb } = require("../config/firebase");
+const { v4: uuidv4 } = require("uuid");
 
 const generateToken = (email) => {
-    return jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+    return jwt.sign({ email }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+    });
 };
 
 exports.signup = async (req, res) => {
     const { email, password } = req.body;
-    const users = readUsers();
+    const userRef = rtdb.ref("Users");
 
-    const existingUser = users.find((u) => u.email === email);
-    if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
+    try {
+        const snapshot = await userRef.once("value");
+        const users = snapshot.val() || {};
+
+        // Check if email already exists
+        const emailExists = Object.values(users).some(
+            (user) => user.credentials && user.credentials.email === email
+        );
+
+        if (emailExists) {
+            return res.status(400).json({ message: "User already exists" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const uuid = uuidv4(); // generate unique ID
+
+        const newUserData = {
+            credentials: {
+                email,
+                password: hashedPassword,
+            },
+            CartItems: {},
+            Address: {},
+        };
+
+        await userRef.child(uuid).set(newUserData);
+
+        const token = generateToken(email);
+        res.cookie("token", token, { httpOnly: true, sameSite: "Lax" });
+        res.status(201).json({ message: "User created", email });
+    } catch (error) {
+        console.error("Signup Error:", error);
+        res.status(500).json({ message: "Error creating user", error: error.message });
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    users.push({ email, password: hashedPassword });
-    writeUsers(users);
-
-    const token = generateToken(email);
-    res.cookie("token", token, { httpOnly: true, sameSite: "Lax" });
-    res.status(201).json({ message: "User created", email });
 };
+
 
 exports.login = async (req, res) => {
     const { email, password } = req.body;
-    const users = readUsers();
+    const userRef = rtdb.ref("Users");
 
-    const user = users.find((u) => u.email === email);
-    if (!user) {
-        return res.status(401).json({ message: "Invalid credentials" });
+    try {
+        const snapshot = await userRef.once("value");
+        const users = snapshot.val() || {};
+
+        // Find user with matching email
+        const userEntry = Object.entries(users).find(
+            ([_, user]) => user.credentials?.email === email
+        );
+
+        if (!userEntry) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+
+        const [userId, userData] = userEntry;
+        const match = await bcrypt.compare(password, userData.credentials.password);
+
+        if (!match) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+
+        const token = generateToken(email);
+        res.cookie("token", token, { httpOnly: true, sameSite: "Lax" });
+        res.status(200).json({ message: "Login successful", email });
+    } catch (error) {
+        console.error("Login Error:", error);
+        res.status(500).json({ message: "Login error", error: error.message });
     }
-
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) {
-        return res.status(401).json({ message: "Invalid credentials" });
-    }
-
-    const token = generateToken(email);
-    res.cookie("token", token, { httpOnly: true, sameSite: "Lax" });
-    res.status(200).json({ message: "Login successful", email });
 };
+
 
 exports.verifyToken = (req, res) => {
     const token = req.cookies.token;
-    if (!token) {
-        return res.status(401).json({ message: "Token missing" });
-    }
+    if (!token) return res.status(401).json({ message: "Token missing" });
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);

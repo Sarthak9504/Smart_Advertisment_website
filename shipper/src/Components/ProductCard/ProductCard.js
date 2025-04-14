@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./ProductCard.css";
 
 function ProductCard({ product }) {
@@ -9,37 +10,42 @@ function ProductCard({ product }) {
     const [quantity, setQuantity] = useState(1);
     const navigate = useNavigate();
 
-    const handleAddToCart = (product) => {
-        console.log("Button clicked! Updating state...");
-        const existingCart = document.cookie
-            .split('; ')
-            .find((row) => row.startsWith('cartItems='))
-            ?.split('=')[1];
-
-        let cart = [];
-
-        if (existingCart) {
-            try {
-                cart = JSON.parse(decodeURIComponent(existingCart));
-            } catch (error) {
-                console.error("Failed to parse cart cookie", error);
-            }
-        }
-
-        // Check if product already exists in cart
-        const existingItem = cart.find(item => item.id === product.id);
-        if (existingItem) {
-            existingItem.quantity += 1; // or skip updating if desired
-        } else {
-            cart.push({ ...product, quantity: 1 });
-        }
-
-        // Save updated cart to cookies
-        document.cookie = `cartItems=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
-
-        console.log("Cart cookie set:", cart);
+    const handleAddToCart = async (product) => {
         setAddedToCart(true);
+
+        try {
+            const res = await axios.post("/api/user/cart/add", {
+                email: getUserEmailFromCookie(),
+                product,
+                quantity: 1,
+            });
+
+            if (res.status === 200) {
+                setAddedToCart(true);
+            }
+        } catch (err) {
+            console.error("Error adding to cart:", err);
+        }
     };
+
+    function getUserEmailFromCookie() {
+        const token = document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("token="))?.split("=")[1];
+
+        if (!token) return null;
+
+        try {
+            const base64Payload = token.split(".")[1];
+            const payload = JSON.parse(atob(base64Payload));
+            return payload.email;
+        } catch (err) {
+            console.error("Failed to decode JWT:", err);
+            return null;
+        }
+    }
+
+
 
     const increaseQuantity = () => {
         setQuantity(prevQty => prevQty + 1);
