@@ -3,8 +3,8 @@ const bcrypt = require("bcryptjs");
 const { rtdb } = require("../config/firebase");
 const { v4: uuidv4 } = require("uuid");
 
-const generateToken = (email) => {
-    return jwt.sign({ email }, process.env.JWT_SECRET, {
+const generateToken = (email, uuid) => {
+    return jwt.sign({ email, uuid }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
     });
 };
@@ -40,7 +40,7 @@ exports.signup = async (req, res) => {
 
         await userRef.child(uuid).set(newUserData);
 
-        const token = generateToken(email);
+        const token = generateToken(email, uuid);
         res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "Lax" });
         res.status(201).json({ message: "User created", email });
     } catch (error) {
@@ -58,7 +58,6 @@ exports.login = async (req, res) => {
         const snapshot = await userRef.once("value");
         const users = snapshot.val() || {};
 
-        // Find user with matching email
         const userEntry = Object.entries(users).find(
             ([_, user]) => user.credentials?.email === email
         );
@@ -74,7 +73,7 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
-        const token = generateToken(email);
+        const token = generateToken(email, userId);
         res.cookie("token", token, { httpOnly: true, secure: true, sameSite: "Lax" });
         res.status(200).json({ message: "Login successful", email });
     } catch (error) {
@@ -82,6 +81,7 @@ exports.login = async (req, res) => {
         res.status(500).json({ message: "Login error", error: error.message });
     }
 };
+
 
 
 exports.verifyToken = (req, res) => {

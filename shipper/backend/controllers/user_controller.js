@@ -1,23 +1,10 @@
 const { rtdb } = require("../config/firebase");
 
-// Helper to get userId from email
-const getUserUUIDByEmail = async (email) => {
-    const snapshot = await rtdb.ref("Users").once("value");
-    const users = snapshot.val() || {};
-
-    for (const [uuid, user] of Object.entries(users)) {
-        if (user.credentials?.email === email) {
-            return uuid;
-        }
-    }
-
-    return null; // Not found
-};
-
 
 exports.addToCart = async (req, res) => {
     console.log("request received");
     const email = req.user.email;
+    const uuid = req.user.uuid;
     const { product, quantity } = req.body;
     if (!email || !product || !product.id) {
         return res.status(400).json({ message: "Missing required data" });
@@ -25,7 +12,6 @@ exports.addToCart = async (req, res) => {
 
     try {
         // console.log("Cart ref created");
-        const uuid = await getUserUUIDByEmail(email);
         if (!uuid) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -45,14 +31,13 @@ exports.addToCart = async (req, res) => {
 
 exports.updateCartItem = async (req, res) => {
     const { productId, quantity } = req.body;
-    const email = req.user.email;
+    const uuid = req.user.uuid;
 
     if (!productId || typeof quantity !== "number") {
         return res.status(400).json({ message: "Missing required data" });
     }
 
     try {
-        const uuid = await getUserUUIDByEmail(email);
         if (!uuid) return res.status(404).json({ message: "User not found" });
 
         const cartRef = rtdb.ref(`Users/${uuid}/CartItems/${productId}`);
@@ -71,15 +56,13 @@ exports.updateCartItem = async (req, res) => {
 
 
 exports.removeCartItem = async (req, res) => {
-    const { productId, withCredentials } = req.body;
-    const email = req.user.email;
-
+    const { productId } = req.body;
+    const uuid = req.user.uuid;
     if (!productId) {
         return res.status(400).json({ message: "Missing required data" });
     }
 
     try {
-        const uuid = await getUserUUIDByEmail(email);
         if (!uuid) return res.status(404).json({ message: "User not found" });
 
         await rtdb.ref(`Users/${uuid}/CartItems/${productId}`).remove();
@@ -93,13 +76,12 @@ exports.removeCartItem = async (req, res) => {
 
 exports.getCartItems = async (req, res) => {
     const email = req.user.email;
-
+    const uuid = req.user.uuid;
     if (!email) {
         return res.status(400).json({ message: "Missing email" });
     }
 
     try {
-        const uuid = await getUserUUIDByEmail(email);
         if (!uuid) return res.status(404).json({ message: "User not found" });
 
         const snapshot = await rtdb.ref(`Users/${uuid}/CartItems`).once("value");
