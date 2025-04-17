@@ -9,7 +9,7 @@ const CartItem = ({ item }) => {
     const handleIncrease = async () => {
         try {
             const newQty = quantity + 1;
-            await axios.put("/api/user/cart/update", {
+            await axios.put("http://localhost:5000/api/user/cart/update", {
                 email: getUserEmailFromCookie(),
                 productId: item.id,
                 quantity: newQty,
@@ -20,7 +20,6 @@ const CartItem = ({ item }) => {
             console.error("Error updating cart quantity:", err);
         }
 
-        setQuantity((prev) => Number(prev) + 1);
     };
 
     const handleDecrease = async () => {
@@ -28,7 +27,7 @@ const CartItem = ({ item }) => {
         try {
             const newQty = quantity - 1;
             if (newQty > 0) {
-                await axios.put("/api/user/cart/update", {
+                await axios.put("http://localhost:5000/api/user/cart/update", {
                     email: getUserEmailFromCookie(),
                     productId: item.id,
                     quantity: newQty,
@@ -39,15 +38,11 @@ const CartItem = ({ item }) => {
         } catch (err) {
             console.error("Error updating cart quantity:", err);
         }
-
-        if (quantity > 1) {
-            setQuantity((prev) => Number(prev) - 1);
-        }
     };
 
     const handleDelete = async () => {
         try {
-            await axios.delete("/api/user/cart/delete", {
+            await axios.delete("http://localhost:5000/api/user/cart/delete", {
                 data: {
                     email: getUserEmailFromCookie(),
                     productId: item.id,

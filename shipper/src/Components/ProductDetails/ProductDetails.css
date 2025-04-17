@@ -86,6 +86,11 @@
     cursor: pointer;
 }
 
+.cart-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
 .buy-btn {
     background-color: #ffa41c;
 }

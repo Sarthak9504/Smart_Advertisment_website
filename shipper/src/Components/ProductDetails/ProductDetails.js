@@ -10,7 +10,7 @@ function ProductDetails({ product }) {
 
     const handleAddToCart = async () => {
         try {
-            const res = await axios.post("/api/user/cart/add", {
+            const res = await axios.post("http://localhost:5000/api/user/cart/add", {
                 email: getUserEmailFromCookie(),
                 product,
                 quantity: 1,
