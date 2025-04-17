@@ -18,6 +18,7 @@ function ProductCard({ product }) {
                 email: getUserEmailFromCookie(),
                 product,
                 quantity: 1,
+                withCredentials: true,
             });
 
             if (res.status === 200) {

@@ -13,6 +13,7 @@ const CartItem = ({ item }) => {
                 email: getUserEmailFromCookie(),
                 productId: item.id,
                 quantity: newQty,
+                withCredentials: true,
             });
             setQuantity(newQty);
         } catch (err) {
@@ -31,6 +32,7 @@ const CartItem = ({ item }) => {
                     email: getUserEmailFromCookie(),
                     productId: item.id,
                     quantity: newQty,
+                    withCredentials: true,
                 });
                 setQuantity(newQty);
             }
@@ -49,6 +51,7 @@ const CartItem = ({ item }) => {
                 data: {
                     email: getUserEmailFromCookie(),
                     productId: item.id,
+                    withCredentials: true,
                 },
             });
         } catch (err) {

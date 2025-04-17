@@ -14,7 +14,9 @@ function SearchResults() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/products/search/${encodeURIComponent(query)}`);
+        const res = await fetch(`http://localhost:5000/api/products/search/${encodeURIComponent(query)}`, {
+          credentials: 'include'
+        });
         const data = await res.json();
         setProducts(data.products);
         // console.log(data);
