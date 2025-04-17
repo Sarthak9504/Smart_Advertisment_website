@@ -16,8 +16,9 @@ const getUserUUIDByEmail = async (email) => {
 
 
 exports.addToCart = async (req, res) => {
-    // console.log("request received");
-    const { email, product, quantity } = req.body;
+    console.log("request received");
+    const email = req.user.email;
+    const { product, quantity } = req.body;
     if (!email || !product || !product.id) {
         return res.status(400).json({ message: "Missing required data" });
     }
@@ -43,9 +44,10 @@ exports.addToCart = async (req, res) => {
 };
 
 exports.updateCartItem = async (req, res) => {
-    const { email, productId, quantity } = req.body;
+    const { productId, quantity } = req.body;
+    const email = req.user.email;
 
-    if (!email || !productId || typeof quantity !== "number") {
+    if (!productId || typeof quantity !== "number") {
         return res.status(400).json({ message: "Missing required data" });
     }
 
@@ -69,9 +71,10 @@ exports.updateCartItem = async (req, res) => {
 
 
 exports.removeCartItem = async (req, res) => {
-    const { email, productId } = req.body;
+    const { productId, withCredentials } = req.body;
+    const email = req.user.email;
 
-    if (!email || !productId) {
+    if (!productId) {
         return res.status(400).json({ message: "Missing required data" });
     }
 
@@ -89,7 +92,7 @@ exports.removeCartItem = async (req, res) => {
 
 
 exports.getCartItems = async (req, res) => {
-    const email = req.query.email;
+    const email = req.user.email;
 
     if (!email) {
         return res.status(400).json({ message: "Missing email" });

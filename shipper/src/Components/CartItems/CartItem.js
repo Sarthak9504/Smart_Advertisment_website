@@ -10,10 +10,10 @@ const CartItem = ({ item }) => {
         try {
             const newQty = quantity + 1;
             await axios.put("http://localhost:5000/api/user/cart/update", {
-                email: getUserEmailFromCookie(),
                 productId: item.id,
                 quantity: newQty,
-                withCredentials: true,
+            }, {
+                withCredentials: true
             });
             setQuantity(newQty);
         } catch (err) {
@@ -28,10 +28,10 @@ const CartItem = ({ item }) => {
             const newQty = quantity - 1;
             if (newQty > 0) {
                 await axios.put("http://localhost:5000/api/user/cart/update", {
-                    email: getUserEmailFromCookie(),
                     productId: item.id,
                     quantity: newQty,
-                    withCredentials: true,
+                }, {
+                    withCredentials: true
                 });
                 setQuantity(newQty);
             }
@@ -43,33 +43,13 @@ const CartItem = ({ item }) => {
     const handleDelete = async () => {
         try {
             await axios.delete("http://localhost:5000/api/user/cart/delete", {
-                data: {
-                    email: getUserEmailFromCookie(),
-                    productId: item.id,
-                    withCredentials: true,
-                },
+                data: { productId: item.id, },
+                withCredentials: true,
             });
         } catch (err) {
             console.error("Error deleting item:", err);
         }
     };
-
-    function getUserEmailFromCookie() {
-        const token = document.cookie
-            .split("; ")
-            .find((row) => row.startsWith("token="))?.split("=")[1];
-
-        if (!token) return null;
-
-        try {
-            const base64Payload = token.split(".")[1];
-            const payload = JSON.parse(atob(base64Payload));
-            return payload.email;
-        } catch (err) {
-            console.error("Failed to decode JWT:", err);
-            return null;
-        }
-    }
 
 
     return (

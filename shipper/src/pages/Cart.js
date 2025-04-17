@@ -8,13 +8,9 @@ const Carts = () => {
 
     useEffect(() => {
         const fetchCartItems = async () => {
-            const email = getUserEmailFromCookie();
-            if (!email) return;
-
             try {
                 const response = await axios.get("http://localhost:5000/api/user/cart", {
-                    params: { email },
-                    withCredentials: true,
+                    withCredentials: true
                 });
 
                 const items = Object.values(response.data); // data is stored as {productId: {product}}
@@ -28,23 +24,6 @@ const Carts = () => {
 
         fetchCartItems();
     }, []);
-
-    function getUserEmailFromCookie() {
-        const token = document.cookie
-            .split("; ")
-            .find((row) => row.startsWith("token="))?.split("=")[1];
-
-        if (!token) return null;
-
-        try {
-            const base64Payload = token.split(".")[1];
-            const payload = JSON.parse(atob(base64Payload));
-            return payload.email;
-        } catch (err) {
-            console.error("Failed to decode JWT:", err);
-            return null;
-        }
-    }
 
     if (loading) return <div>Loading cart...</div>;
 

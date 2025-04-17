@@ -11,10 +11,10 @@ function ProductDetails({ product }) {
     const handleAddToCart = async () => {
         try {
             const res = await axios.post("http://localhost:5000/api/user/cart/add", {
-                email: getUserEmailFromCookie(),
                 product,
                 quantity: 1,
-                withCredentials: true,
+            }, {
+                withCredentials: true
             });
 
             if (res.status === 200) {
@@ -24,23 +24,6 @@ function ProductDetails({ product }) {
             console.error("Error adding to cart:", err);
         }
     };
-
-    function getUserEmailFromCookie() {
-        const token = document.cookie
-            .split("; ")
-            .find((row) => row.startsWith("token="))?.split("=")[1];
-
-        if (!token) return null;
-
-        try {
-            const base64Payload = token.split(".")[1];
-            const payload = JSON.parse(atob(base64Payload));
-            return payload.email;
-        } catch (err) {
-            console.error("Failed to decode JWT:", err);
-            return null;
-        }
-    }
 
     return (
         <div className="product-details-page">

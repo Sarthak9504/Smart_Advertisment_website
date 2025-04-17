@@ -11,33 +11,17 @@ function ProductCard({ product }) {
     const [isLoading, setIsLoading] = useState(false);  // Loading state for better UX
     const navigate = useNavigate();
 
-    const getUserEmailFromCookie = () => {
-        const token = document.cookie
-            .split("; ")
-            .find((row) => row.startsWith("token="))?.split("=")[1];
-
-        if (!token) return null;
-
-        try {
-            const base64Payload = token.split(".")[1];
-            const payload = JSON.parse(atob(base64Payload));
-            return payload.email;
-        } catch (err) {
-            console.error("Failed to decode JWT:", err);
-            return null;
-        }
-    };
-
     const handleAddToCart = async (product) => {
         setIsLoading(true);
         setAddedToCart(true);
 
         try {
             const res = await axios.post("http://localhost:5000/api/user/cart/add", {
-                email: getUserEmailFromCookie(),
                 product,
                 quantity: 1,
-                withCredentials: true,
+
+            }, {
+                withCredentials: true
             });
 
             if (res.status === 200) {
@@ -59,10 +43,10 @@ function ProductCard({ product }) {
 
         try {
             await axios.put("http://localhost:5000/api/user/cart/update", {
-                email: getUserEmailFromCookie(),
                 productId: product.id,
                 quantity: newQty,
-                withCredentials: true,
+            }, {
+                withCredentials: true
             });
             setQuantity(newQty);
         } catch (err) {
@@ -81,10 +65,10 @@ function ProductCard({ product }) {
         try {
             if (newQty > 0) {
                 await axios.put("http://localhost:5000/api/user/cart/update", {
-                    email: getUserEmailFromCookie(),
                     productId: product.id,
                     quantity: newQty,
-                    withCredentials: true,
+                }, {
+                    withCredentials: true
                 });
                 setQuantity(newQty);
             } else {
@@ -104,11 +88,8 @@ function ProductCard({ product }) {
 
         try {
             await axios.delete("http://localhost:5000/api/user/cart/delete", {
-                data: {
-                    email: getUserEmailFromCookie(),
-                    productId: product.id,
-                    withCredentials: true,
-                },
+                data: { productId: product.id, },
+                withCredentials: true,
             });
             setQuantity(0);
             setAddedToCart(false);// Reset quantity to 0 after deletion
