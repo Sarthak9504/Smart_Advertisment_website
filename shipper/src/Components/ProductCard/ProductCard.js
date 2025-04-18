@@ -104,10 +104,12 @@ function ProductCard({ product }) {
         navigate(`/product/${encodeURIComponent(product.name)}`);
     };
 
+    console.log("In the products card", product.image);
+
     return (
         <div className="product-card" onClick={handleClick}>
             <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                <img src={`http://localhost:5000/images/${product.image}`} alt={product.name} />
             </div>
             <div className="product-details">
                 <h3 className="product-name">{product.name}</h3>

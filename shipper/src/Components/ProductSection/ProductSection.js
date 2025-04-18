@@ -12,9 +12,11 @@ function ProductCard({ product }) {
         navigate(`/product/${encodeURIComponent(product.name)}`);
     };
 
+    console.log("In the products details", product.image);
+
     return (
         <div className="product-row-card" onClick={handleClick}>
-            <img src={product.image} alt={product.name} className="product-row-image" />
+            <img src={`http://localhost:5000/images/${product.image}`} alt={product.name} className="product-row-image" />
             <h3 className="product-row-name">{product.name}</h3>
             <p className="product-row-price">₹{product.price}</p>
         </div>

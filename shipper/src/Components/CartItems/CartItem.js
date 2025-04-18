@@ -51,10 +51,11 @@ const CartItem = ({ item }) => {
         }
     };
 
+    console.log("In the cart items", item.image);
 
     return (
         <div className="cart-item">
-            <img src={item.image} alt={item.name} className="cart-item-image" />
+            <img src={`http://localhost:5000/images/${item.image}`} alt={item.name} className="cart-item-image" />
             <div className="cart-item-details">
                 <h3 className="cart-item-title">{item.name}</h3>
                 <p className="cart-item-price">₹{item.price}</p>

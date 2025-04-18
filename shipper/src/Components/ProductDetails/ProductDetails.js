@@ -28,7 +28,7 @@ function ProductDetails({ product }) {
     return (
         <div className="product-details-page">
             <div className="left-section">
-                <img src={product.image} alt={product.name} className="details-image" />
+                <img src={`http://localhost:5000/images/${product.image}`} alt={product.name} className="details-image" />
             </div>
 
             <div className="middle-section">
