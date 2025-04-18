@@ -1,7 +1,7 @@
 const stringSimilarity = require("string-similarity");
 const { db } = require("../config/firebase");
+const { addToCookieList } = require("../helpers/cookies");
 
-// Get all products, grouped by category
 const getAllProducts = async (req, res) => {
     try {
         const snapshot = await db.collection("products").get();
@@ -21,7 +21,6 @@ const getAllProducts = async (req, res) => {
     }
 };
 
-// Get products by fuzzy category
 const getProductsByCategory = async (req, res) => {
     const rawQuery = req.params.category.trim().toLowerCase();
 
@@ -43,6 +42,8 @@ const getProductsByCategory = async (req, res) => {
             p => p.category.trim().toLowerCase() === bestCategory
         );
 
+        addToCookieList(res, req, "search-history", bestCategory);
+
         res.json({ products: matchedProducts, matchedCategory: bestCategory });
     } catch (err) {
         console.error("Firestore error:", err);
@@ -50,7 +51,7 @@ const getProductsByCategory = async (req, res) => {
     }
 };
 
-// Get a single product by exact name
+
 const getProductByName = async (req, res) => {
     const name = decodeURIComponent(req.params.name).trim().toLowerCase();
 
@@ -65,6 +66,9 @@ const getProductByName = async (req, res) => {
         if (!product) {
             return res.status(404).json({ error: "Product not found" });
         }
+
+        addToCookieList(res, req, "ctr-product-name", product.name);
+        addToCookieList(res, req, "ctr-product-category", product.category);
 
         res.json(product);
     } catch (err) {
