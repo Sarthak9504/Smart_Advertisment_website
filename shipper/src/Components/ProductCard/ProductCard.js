@@ -104,7 +104,7 @@ function ProductCard({ product }) {
         navigate(`/product/${encodeURIComponent(product.name)}`);
     };
 
-    console.log("In the products card", product.image);
+    // console.log("In the products card", product.image);
 
     return (
         <div className="product-card" onClick={handleClick}>

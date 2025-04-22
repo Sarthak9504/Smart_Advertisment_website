@@ -25,7 +25,10 @@ public class AdController {
     @Autowired
     ImageService imageService;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(
+            origins = "http://localhost:3000",
+            allowCredentials = "true"
+    )
     @GetMapping(value = "/ads/{ad_name}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<Resource> getAd2(@PathVariable String ad_name) {
         final ByteArrayResource inputStream = imageService.getImage(ad_name);
@@ -35,7 +38,10 @@ public class AdController {
                 .body(inputStream);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(
+            origins = "http://localhost:3000",
+            allowCredentials = "true"
+    )
     @GetMapping(value = "/categorical-ads/{ad_number}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<Resource> getCategoricalAd(@CookieValue(name = "ctr-product-category", defaultValue = "[]") String categoryList, @PathVariable Integer ad_number) {
         if(categoryList.compareTo("[]") == 0) {
