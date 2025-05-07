@@ -41,7 +41,7 @@ exports.signup = async (req, res) => {
         await userRef.child(uuid).set(newUserData);
 
         const token = generateToken(email, uuid);
-        res.cookie("token", token, { httpOnly: true, sameSite: "Lax", maxAge: NUMBER(process.env.COOKIE_EXPIRY) });
+        res.cookie("token", token, { httpOnly: true, sameSite: "Lax", maxAge: Number(process.env.COOKIE_EXPIRY) });
         res.status(201).json({ message: "User created", email });
     } catch (error) {
         console.error("Signup Error:", error);

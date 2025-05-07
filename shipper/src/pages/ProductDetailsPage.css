@@ -1,0 +1,36 @@
+.product-page {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.product-page>* {
+    flex: 1 1 60%;
+}
+
+@media (min-width: 768px) {
+    .product-page {
+        flex-direction: row;
+    }
+
+    .product-page> :first-child {
+        flex: 2;
+    }
+
+    .product-page> :last-child {
+        flex: 1;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 767px) {
+    .product-page {
+        flex-direction: column;
+    }
+
+    .product-page>* {
+        width: 100%;
+    }
+}

@@ -36,7 +36,7 @@ function SearchResults() {
     try {
       axios
         .get(
-          `http://localhost:8080/ads/${encodeURIComponent(query)}`,
+          `http://192.168.41.104:8080/categorical-ads/1`,
           {
             responseType: "blob",
             withCredentials: true,

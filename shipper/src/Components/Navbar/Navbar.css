@@ -1,9 +1,10 @@
 .navbar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 30px;
-    height: 80px;
+    padding: 10px 20px;
+    height: auto;
     background-color: #131921;
     color: white;
 }
@@ -13,6 +14,7 @@
     font-weight: bold;
     text-decoration: none;
     color: white;
+    flex-shrink: 0;
 }
 
 .location {
@@ -20,6 +22,7 @@
     align-items: center;
     gap: 5px;
     font-size: 14px;
+    flex-shrink: 0;
 }
 
 /* Search Bar */
@@ -29,7 +32,9 @@
     background: white;
     border-radius: 5px;
     overflow: hidden;
-    width: 1000px;
+    flex: 1;
+    margin: 10px 0;
+    min-width: 200px;
 }
 
 .search-bar input {
@@ -58,7 +63,9 @@
 .nav-icons {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
 }
 
 .account,
@@ -68,6 +75,7 @@
     gap: 5px;
     text-decoration: none;
     color: white;
+    font-size: 14px;
 }
 
 .cart-count {
@@ -78,4 +86,49 @@
     position: relative;
     top: -10px;
     left: -5px;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .nav-icons {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .logo,
+    .location {
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 18px;
+    }
+
+    .search-bar input {
+        padding: 6px 10px;
+    }
+
+    .search-bar button {
+        padding: 6px 8px;
+    }
+
+    .account,
+    .cart {
+        font-size: 12px;
+    }
+
+    .nav-icons {
+        gap: 15px;
+    }
 }
