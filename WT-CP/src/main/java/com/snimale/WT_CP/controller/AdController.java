@@ -56,6 +56,7 @@ public class AdController {
                     .body(inputStream);
         } else {
             try {
+                System.out.println("Cookie Found: Sending Advertisement");
                 List<String> myList = objectMapper.readValue(categoryList, new TypeReference<List<String>>() {});
                 categoryFreqList.clear();
                 for(int i=0; i<myList.size(); i++) {
