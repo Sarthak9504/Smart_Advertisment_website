@@ -11,7 +11,7 @@ import java.net.URL;
 @Service
 public class ImageService {
     public ByteArrayResource getImage(String imageName) {
-        URL url = this.getClass().getClassLoader().getResource(imageName+".jpg");
+        URL url = this.getClass().getClassLoader().getResource(imageName);
         try (InputStream inputStream = url.openStream()) {
             byte[] bytes = inputStream.readAllBytes();  // Read all bytes from the InputStream
             return new ByteArrayResource(bytes);  // Return the bytes as a resource

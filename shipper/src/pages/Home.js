@@ -3,9 +3,9 @@ import AdBanner from "../Components/AdBanner/AdBanner";
 import ProductSection from "../Components/ProductSection/ProductSection";
 
 const adImages = [
-  "https://tse3.mm.bing.net/th?id=OIP.0KwcZ4t3Czwk6BIeoaSgWAHaLf&pid=Api&P=0&h=180",
-  "https://tse3.mm.bing.net/th?id=OIP.kRPeifyutUKY2BYJRwMOMwHaFQ&pid=Api&P=0&h=180",
-  "https://tse2.mm.bing.net/th?id=OIP.glAuNyxylSMibkenmDiGdQHaFP&pid=Api&P=0&h=180",
+  "https://placehold.co/1000x400?text=Laptop+Ad",
+  "https://placehold.co/1000x400?text=Watch+Ad",
+  "https://placehold.co/1000x400?text=Phone+Ad",
 ];
 
 function Home() {

@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 import SearchAdBanner from "../Components/SearchAdBanner/SearchAdBanner";
 import SearchProductList from "../Components/SearchResults/SearchProductList";
 
-
 function SearchResults() {
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("q") || "all";
@@ -14,10 +13,18 @@ function SearchResults() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/products/search/${encodeURIComponent(query)}`, {
-          credentials: 'include'
-        });
+        console.log("----------------------------------");
+        console.log(encodeURIComponent(query));
+        const res = await fetch(
+          `http://localhost:5000/api/products/search/${encodeURIComponent(
+            query
+          )}`,
+          {
+            credentials: "include",
+          }
+        );
         const data = await res.json();
+        console.log("----------------------------------");
         setProducts(data.products);
         // console.log(data);
       } catch (err) {
@@ -28,19 +35,16 @@ function SearchResults() {
     fetchProducts();
   }, [query]);
 
-
   useEffect(() => {
     // Parse document.cookie to get searchHistory
     console.log("First time API call");
     // Make API call to fetch ad image
     try {
       axios
-        .get(
-          `http://192.168.41.104:8080/categorical-ads/1`,
-          {
-            responseType: "blob",
-            withCredentials: true,
-          })
+        .get(`http://localhost:8080/search-ads`, {
+          responseType: "blob",
+          withCredentials: true,
+        })
         .then((response) => {
           const url = URL.createObjectURL(response.data);
           setAdImage(url);
