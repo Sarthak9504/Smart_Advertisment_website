@@ -9,6 +9,7 @@
   width: 100%;
   object-fit: cover;
   border-radius: 8px;
+  max-height: 250px;
 }
 
 .horizontal-ad img {

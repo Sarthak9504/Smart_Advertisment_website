@@ -29,7 +29,18 @@ function ProductCard({ product }) {
                 setQuantity(1);// Mark as added to cart
             }
         } catch (err) {
-            console.error("Error adding to cart:", err);
+            if (err.response) {
+                if (err.response.status === 401) {
+                    alert("Authentication token missing. Please sign in.");
+                } else if (err.response.status === 403) {
+                    alert("Invalid or expired session. Please sign in again.");
+                } else {
+                    alert("Failed to add to cart: " + err.response.data.message);
+                }
+            } else {
+                console.error("Error adding to cart:", err);
+                alert("Something went wrong. Please try again.");
+            }
         } finally {
             setIsLoading(false); // Reset loading state
         }
