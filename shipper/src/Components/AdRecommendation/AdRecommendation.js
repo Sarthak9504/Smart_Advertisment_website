@@ -1,7 +1,7 @@
 import React from "react";
-import "./SearchAdBanner.css";
+import "./AdRecommendation.css";
 
-function SearchAdBanner({ adImage, adLink }) {
+function AdRecommendation({ parent, adImage, adLink }) {
     return (
         <div className="search-ad-banner">
             <a href={adLink}>
@@ -11,4 +11,4 @@ function SearchAdBanner({ adImage, adLink }) {
     );
 }
 
-export default SearchAdBanner;
+export default AdRecommendation;

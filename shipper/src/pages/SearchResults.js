@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
-import SearchAdBanner from "../Components/SearchAdBanner/SearchAdBanner";
+import SearchAdBanner from "../Components/AdRecommendation/AdRecommendation";
 import SearchProductList from "../Components/SearchResults/SearchProductList";
 
 function SearchResults() {

@@ -1,0 +1,28 @@
+.search-ad-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5% 0;
+}
+
+.search-ad-banner img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.horizontal-ad img {
+  max-height: 250px;
+}
+
+.vertical-ad {
+  width: 100%;
+  max-width: 300px;
+}
+
+.vertical-ad img {
+  width: 100%;
+  height: auto;
+  max-height: none;
+  aspect-ratio: 1 / 2;
+}

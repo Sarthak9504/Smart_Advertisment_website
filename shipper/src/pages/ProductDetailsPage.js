@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import ProductDetails from "../Components/ProductDetails/ProductDetails";
-import SearchAdBanner from "../Components/SearchAdBanner/SearchAdBanner";
+import SearchAdBanner from "../Components/AdRecommendation/AdRecommendation";
 import "./ProductDetailsPage.css";
 
 function ProductDetailsPage() {
